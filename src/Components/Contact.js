@@ -57,14 +57,14 @@ L.Icon.Default.mergeOptions({
     {
       icon: '📧',
       title: 'Email',
-      details: 'antibang96@gmail.com',
-      link: 'mailto:antibang96@gmail.com'
+      details: 'agam23@gmail.com',
+      link: 'mailto:agam23@gmail.com'
     },
     {
       icon: '📞',
       title: 'Phone',
       details: '+91 (600) 697-2774',
-      link: 'tel:+916006972774'
+      link: 'tel:+91 7247578156'
     },
     {
       icon: '📍',

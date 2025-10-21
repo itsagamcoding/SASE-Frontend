@@ -1,8 +1,8 @@
 import React from 'react';
-import Adarsh from '../Assets/Adarsh.jpg'
-import Itachi from '../Assets/itachi.jpeg'
-import Kakashi from '../Assets/kakashi.jpeg'
-import madara from '../Assets/madara.jpeg'
+import Agam from '../Assets/agam.jpg'
+import Riya from '../Assets/riya.jpg'
+import Rohit from '../Assets/rohit.jpg'
+import Smriti from '../Assets/smriti.jpg'
 import { 
   Users, 
   Target, 
@@ -52,27 +52,27 @@ const About = () => {
 
   const team = [
     {
-      name: 'Adarsh Dev Singh',
+      name: 'Agam Tiwari',
       role: 'CEO & Founder',
-      image: Adarsh,
+      image: Agam,
       description: 'Visionary leader with 2+ years in tech industry'
     },
     {
-      name: 'Madara Uchiha',
+      name: 'Riya Singh',
       role: 'CTO',
-      image: madara,
+      image: Riya,
       description: 'Technical expert driving our innovation forward'
     },
     {
-      name: 'Itachi Uchiha',
+      name: 'Rohit Sharma',
       role: 'Head of Design',
-      image: Itachi,
+      image: Rohit,
       description: 'Creative mind behind our beautiful user experiences'
     },
     {
-      name: 'Kakashi Hatake',
+      name: 'Smriti Verma',
       role: 'Project Manager',
-      image: Kakashi,
+      image: Smriti,
       description: 'Ensuring projects deliver on time and exceed expectations'
     }
   ];
@@ -83,7 +83,7 @@ const About = () => {
       <div className="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Antibang</span>
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">SASE</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             We're not just another tech company. We're the explosion of innovation that disrupts the ordinary and creates extraordinary digital experiences.
@@ -101,7 +101,7 @@ const About = () => {
                 <h2 className="text-3xl font-bold text-gray-800">Our Mission</h2>
               </div>
               <p className="text-lg text-gray-600 leading-relaxed">
-                At Antibang, we believe in the power of technology to transform businesses and lives. Our mission is to create innovative solutions that don't just meet expectations—they exceed them. We're here to be the catalyst that propels your business into the future.
+                At SASE, we believe in the power of technology to transform businesses and lives. Our mission is to create innovative solutions that don't just meet expectations—they exceed them. We're here to be the catalyst that propels your business into the future.
               </p>
             </div>
             <div className="text-center md:text-left">
@@ -168,7 +168,7 @@ const About = () => {
         <div className="max-w-6xl mx-auto px-6">
           <h2 className="text-4xl font-bold text-center text-gray-800 mb-4">Meet Our Team</h2>
           <p className="text-xl text-gray-600 text-center mb-12">
-            The brilliant minds behind Antibang's success
+            The brilliant minds behind SASE's success
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {team.map((member, index) => (
@@ -195,7 +195,7 @@ const About = () => {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-4xl font-bold mb-6">Why Choose Antibang?</h2>
+              <h2 className="text-4xl font-bold mb-6">Why Choose SASE?</h2>
               <div className="space-y-4">
                 <div className="flex items-start">
                   <Coffee className="w-6 h-6 text-cyan-400 mr-4 mt-1 flex-shrink-0" />
@@ -226,15 +226,15 @@ const About = () => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-center">
                     <MapPin className="w-5 h-5 mr-3 text-cyan-400" />
-                    <span>Daskal Morh ,Akhnoor</span>
+                    <span>Gwalior,MP</span>
                   </div>
                   <div className="flex items-center justify-center">
                     <Mail className="w-5 h-5 mr-3 text-cyan-400" />
-                    <span>adarsh@antibang.com</span>
+                    <span>agam@sase.com</span>
                   </div>
                   <div className="flex items-center justify-center">
                     <Phone className="w-5 h-5 mr-3 text-cyan-400" />
-                    <span>+91 (600) 697-2774</span>
+                    <span>+91 7247578156</span>
                   </div>
                 </div>
                 <button className="mt-6 bg-gradient-to-r from-cyan-500 to-blue-600 text-white py-3 px-8 rounded-full hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
