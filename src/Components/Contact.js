@@ -63,13 +63,13 @@ L.Icon.Default.mergeOptions({
     {
       icon: '📞',
       title: 'Phone',
-      details: '+91 (600) 697-2774',
+      details: '+91 7247578156',
       link: 'tel:+91 7247578156'
     },
     {
       icon: '📍',
       title: 'Address',
-      details: '96, Patli gali , Chor bazaar Shatranj Colony, Zila Ghaziabaad     960069',
+      details: 'C-17 Bank Colony, Gwalior, Madhya Pradesh     474005',
       link: 'https://maps.google.com'
     },
     {
@@ -338,16 +338,16 @@ L.Icon.Default.mergeOptions({
           <div className="bg-gray-300 rounded-2xl h-96 flex items-center justify-center shadow-lg">
       <div className="w-full h-full rounded-2xl overflow-hidden">
         <MapContainer
-          center={[32.917674, 74.737498]} // Jammu & Kashmir coordinates
+          center={[26.2124, 78.1772]} // coordinates
           zoom={7}
-          style={{ width: '100%', height: '100%' }}
+         style={{ width: '100%', height: '100%' }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[32.917674, 74.737498]}>
-            <Popup>Jammu & Kashmir</Popup>
+          <Marker position={[26.2124, 78.1772]}>
+            <Popup>Gwalior,Madhya Pradesh</Popup>
           </Marker>
         </MapContainer>
       </div>
