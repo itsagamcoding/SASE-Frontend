@@ -8,16 +8,17 @@ import {
   Shield,
   Zap,
   FileText,
-  MessageSquare,
+  // MessageSquare,
   Settings,
-  Plus,
+  // Plus,
   Bot,
   RefreshCw,
-  Play,
+  // Play,
   Pause,
   AlertCircle,
   CheckCircle2,
-  Activity
+  Activity,
+  Bell
 } from 'lucide-react';
 
 const TaskIcons = () => {
@@ -32,9 +33,9 @@ const TaskIcons = () => {
     config: {}
   });
 
-  // Flask backend URL - adjust as needed
   const API_BASE_URL = 'http://localhost:5000';
 
+  // ---------------- BOT TYPES -----------------
   const botTypes = [
     {
       id: 'flipkart',
@@ -49,6 +50,19 @@ const TaskIcons = () => {
         'GMAIL_PASSWORD',
         'UPI_ID',
         'PRODUCT_URL'
+      ]
+    },
+    {
+      id: 'jobalerts', // Job Alerts Bot
+      name: "Job Alerts Bot",
+      icon: Bell,
+      color: "bg-pink-500 hover:bg-pink-600",
+      description: "Fetches latest job postings",
+      status: 'active',
+      configs: [
+        'USER_ID',
+        'JOB_PREFERENCES',
+        'EMAIL_NOTIFICATIONS'
       ]
     },
     {
@@ -138,7 +152,7 @@ const TaskIcons = () => {
     }
   ];
 
-  // Fetch bot instances from backend
+  // ---------------- FETCH BOT INSTANCES -----------------
   const fetchBotInstances = async () => {
     setLoading(true);
     try {
@@ -148,11 +162,11 @@ const TaskIcons = () => {
         setBotInstances(data.bots || []);
       } else {
         setError('Failed to fetch bot status');
-        // Fallback to mock data
         setBotInstances([
           { id: 1, name: "Flipkart Order Automation", type: "flipkart", status: "idle" },
           { id: 2, name: "YouTube Playlist Sync", type: "youtube", status: "idle" },
-          { id: 3, name: "Gmail Auto Response", type: "gmail", status: "idle" }
+          { id: 3, name: "Gmail Auto Response", type: "gmail", status: "idle" },
+          { id: 4, name: "Job Alerts Bot", type: "jobalerts", status: "idle" }
         ]);
       }
     } catch (err) {
@@ -160,14 +174,15 @@ const TaskIcons = () => {
       setBotInstances([
         { id: 1, name: "Flipkart Order Automation", type: "flipkart", status: "idle" },
         { id: 2, name: "YouTube Playlist Sync", type: "youtube", status: "idle" },
-        { id: 3, name: "Gmail Auto Response", type: "gmail", status: "idle" }
+        { id: 3, name: "Gmail Auto Response", type: "gmail", status: "idle" },
+        { id: 4, name: "Job Alerts Bot", type: "jobalerts", status: "idle" }
       ]);
     } finally {
       setLoading(false);
     }
   };
 
-  // Create new bot instance
+  // ---------------- CREATE BOT -----------------
   const createBot = async () => {
     setLoading(true);
     try {
@@ -184,7 +199,7 @@ const TaskIcons = () => {
         if (result.success) {
           setShowCreateModal(false);
           setNewBotConfig({ type: 'flipkart', config: {} });
-          fetchBotInstances(); // Refresh the list
+          fetchBotInstances();
         } else {
           setError(`Failed to create bot: ${result.error || 'Unknown error'}`);
         }
@@ -198,17 +213,13 @@ const TaskIcons = () => {
     }
   };
 
-  useEffect(() => {
-    fetchBotInstances();
-    const interval = setInterval(fetchBotInstances, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
+  // ---------------- HELPER FUNCTIONS -----------------
   const getBotTypeCount = (botTypeId) => {
     return botInstances.filter(instance => {
       if (botTypeId === 'flipkart') return instance.name.toLowerCase().includes('flipkart');
       if (botTypeId === 'youtube') return instance.name.toLowerCase().includes('youtube');
       if (botTypeId === 'gmail') return instance.name.toLowerCase().includes('gmail');
+      if (botTypeId === 'jobalerts') return instance.name.toLowerCase().includes('job');
       return false;
     }).length;
   };
@@ -218,6 +229,7 @@ const TaskIcons = () => {
       if (botTypeId === 'flipkart') return instance.name.toLowerCase().includes('flipkart');
       if (botTypeId === 'youtube') return instance.name.toLowerCase().includes('youtube');
       if (botTypeId === 'gmail') return instance.name.toLowerCase().includes('gmail');
+      if (botTypeId === 'jobalerts') return instance.name.toLowerCase().includes('job');
       return false;
     });
 
@@ -262,9 +274,15 @@ const TaskIcons = () => {
     setShowModal(true);
   };
 
+  useEffect(() => {
+    fetchBotInstances();
+    const interval = setInterval(fetchBotInstances, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // ---------------- MODALS -----------------
   const ConfigModal = () => {
     if (!showModal || !selectedBot) return null;
-
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
@@ -344,12 +362,11 @@ const TaskIcons = () => {
 
   const CreateBotModal = () => {
     if (!showCreateModal) return null;
-
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div className="bg-white rounded-lg p-6 w-96 max-w-full">
           <h3 className="text-lg font-semibold mb-4">Create New Bot Instance</h3>
-          
+          {/* Bot type and configs */}
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2">Bot Type</label>
             <select 
@@ -357,118 +374,26 @@ const TaskIcons = () => {
               onChange={(e) => setNewBotConfig({...newBotConfig, type: e.target.value, config: {}})}
               className="w-full p-2 border rounded-lg"
             >
-              <option value="flipkart">Flipkart Order Bot</option>
-              <option value="youtube">YouTube Download Bot</option>
-              <option value="gmail">Gmail Auto Reply Bot</option>
+              {botTypes.map(bot => (
+                <option key={bot.id} value={bot.id}>{bot.name}</option>
+              ))}
             </select>
           </div>
-
-          {newBotConfig.type === 'flipkart' && (
-            <>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Flipkart Email</label>
-                <input 
-                  type="email"
-                  value={newBotConfig.config.FLIPKART_EMAIL || ''}
-                  onChange={(e) => setNewBotConfig({
-                    ...newBotConfig, 
-                    config: {...newBotConfig.config, FLIPKART_EMAIL: e.target.value}
-                  })}
-                  className="w-full p-2 border rounded"
-                  placeholder="your.email@example.com"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Product URL</label>
-                <input 
-                  type="text"
-                  value={newBotConfig.config.PRODUCT_URL || ''}
-                  onChange={(e) => setNewBotConfig({
-                    ...newBotConfig, 
-                    config: {...newBotConfig.config, PRODUCT_URL: e.target.value}
-                  })}
-                  className="w-full p-2 border rounded"
-                  placeholder="Product name or URL"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">UPI ID</label>
-                <input 
-                  type="text"
-                  value={newBotConfig.config.UPI_ID || ''}
-                  onChange={(e) => setNewBotConfig({
-                    ...newBotConfig, 
-                    config: {...newBotConfig.config, UPI_ID: e.target.value}
-                  })}
-                  className="w-full p-2 border rounded"
-                  placeholder="your-upi@bank"
-                />
-              </div>
-            </>
-          )}
-
-          {newBotConfig.type === 'youtube' && (
-            <>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Playlist URL</label>
-                <input 
-                  type="text"
-                  value={newBotConfig.config.PLAYLIST_URL || ''}
-                  onChange={(e) => setNewBotConfig({
-                    ...newBotConfig, 
-                    config: {...newBotConfig.config, PLAYLIST_URL: e.target.value}
-                  })}
-                  className="w-full p-2 border rounded"
-                  placeholder="YouTube playlist URL"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Download Directory</label>
-                <input 
-                  type="text"
-                  value={newBotConfig.config.DOWNLOAD_DIR || 'downloads'}
-                  onChange={(e) => setNewBotConfig({
-                    ...newBotConfig, 
-                    config: {...newBotConfig.config, DOWNLOAD_DIR: e.target.value}
-                  })}
-                  className="w-full p-2 border rounded"
-                  placeholder="downloads"
-                />
-              </div>
-            </>
-          )}
-
-          {newBotConfig.type === 'gmail' && (
-            <>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Watch Email</label>
-                <input 
-                  type="email"
-                  value={newBotConfig.config.WATCH_EMAIL || ''}
-                  onChange={(e) => setNewBotConfig({
-                    ...newBotConfig, 
-                    config: {...newBotConfig.config, WATCH_EMAIL: e.target.value}
-                  })}
-                  className="w-full p-2 border rounded"
-                  placeholder="email@example.com"
-                />
-              </div>
-              <div className="mb-3">
-                <label className="block text-sm font-medium mb-1">Check Interval (minutes)</label>
-                <input 
-                  type="number"
-                  value={newBotConfig.config.CHECK_INTERVAL_MINUTES || 1}
-                  onChange={(e) => setNewBotConfig({
-                    ...newBotConfig, 
-                    config: {...newBotConfig.config, CHECK_INTERVAL_MINUTES: parseInt(e.target.value)}
-                  })}
-                  className="w-full p-2 border rounded"
-                  min="1"
-                />
-              </div>
-            </>
-          )}
-
+          {/* Simple placeholder config inputs */}
+          {newBotConfig.config && Object.keys(newBotConfig.config).map((key) => (
+            <div key={key} className="mb-3">
+              <label className="block text-sm font-medium mb-1">{key}</label>
+              <input 
+                type="text"
+                value={newBotConfig.config[key] || ''}
+                onChange={(e) => setNewBotConfig({
+                  ...newBotConfig,
+                  config: {...newBotConfig.config, [key]: e.target.value}
+                })}
+                className="w-full p-2 border rounded"
+              />
+            </div>
+          ))}
           <div className="flex space-x-3 mt-6">
             <button 
               onClick={createBot}
@@ -489,6 +414,7 @@ const TaskIcons = () => {
     );
   };
 
+  // ---------------- JSX -----------------
   return (
     <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
       <div className="flex items-center justify-between mb-6">
@@ -561,47 +487,6 @@ const TaskIcons = () => {
             </div>
           );
         })}
-      </div>
-      
-      <div className="border-t pt-4">
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 border border-green-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-semibold text-gray-800 flex items-center space-x-2">
-                <Plus className="h-4 w-4" />
-                <span>Create New Bot</span>
-              </h3>
-              <p className="text-sm text-gray-600">Deploy a custom automation bot</p>
-            </div>
-            <button 
-              onClick={() => setShowCreateModal(true)}
-              className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-green-700 hover:to-blue-700 transition-all duration-200 text-sm font-medium shadow-md"
-            >
-              + Deploy
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-4 grid grid-cols-3 gap-4 text-center">
-        <div className="bg-green-50 rounded-lg p-3">
-          <div className="text-2xl font-bold text-green-600">
-            {botInstances.filter(bot => bot.status === 'running').length}
-          </div>
-          <div className="text-xs text-gray-600">Running</div>
-        </div>
-        <div className="bg-blue-50 rounded-lg p-3">
-          <div className="text-2xl font-bold text-blue-600">
-            {botInstances.filter(bot => bot.status === 'idle' || bot.status === 'paused').length}
-          </div>
-          <div className="text-xs text-gray-600">Ready</div>
-        </div>
-        <div className="bg-gray-50 rounded-lg p-3">
-          <div className="text-2xl font-bold text-gray-600">
-            {botInstances.length}
-          </div>
-          <div className="text-xs text-gray-600">Total</div>
-        </div>
       </div>
 
       <ConfigModal />

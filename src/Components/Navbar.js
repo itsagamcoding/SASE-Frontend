@@ -6,16 +6,13 @@ import UserProfileDropdown from './UserProfileDropdown';
 const Navbar = ({ user, onLogin, onSignup, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+
+  const isActive = (path) => location.pathname === path;
 
   const linkClass = (path) => {
     const baseClasses = "relative px-4 py-2 rounded-lg transition-all duration-300 font-medium";
     const activeClasses = "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105";
     const inactiveClasses = "text-gray-300 hover:text-white hover:bg-white/10 hover:backdrop-blur-sm";
-    
     return `${baseClasses} ${isActive(path) ? activeClasses : inactiveClasses}`;
   };
 
@@ -23,7 +20,8 @@ const Navbar = ({ user, onLogin, onSignup, onLogout }) => {
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
     { path: '/services', label: 'Services' },
-    { path: '/contact', label: 'Contact' }
+    { path: '/contact', label: 'Contact' },
+    { path: '/job-alerts', label: 'Job Alerts' } // ✅ Added Job Alerts
   ];
 
   return (
@@ -32,10 +30,7 @@ const Navbar = ({ user, onLogin, onSignup, onLogout }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo Section */}
-            <Link 
-              to="/" 
-              className="flex items-center space-x-3 group transition-all duration-300 hover:scale-105"
-            >
+            <Link to="/" className="flex items-center space-x-3 group transition-all duration-300 hover:scale-105">
               <div className="relative">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-blue-500/25 transition-all duration-300">
                   <Zap className="w-6 h-6 text-white" />
@@ -51,35 +46,15 @@ const Navbar = ({ user, onLogin, onSignup, onLogout }) => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-2">
               <div className="flex items-center space-x-1 bg-gray-800/50 rounded-xl p-1 backdrop-blur-sm border border-gray-700/50">
-                <Link to="/" className={linkClass('/')}>
-                  <span className="relative z-10">Home</span>
-                  {isActive('/') && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg opacity-20 animate-pulse"></div>
-                  )}
-                </Link>
-                <Link to="/about" className={linkClass('/about')}>
-                  <span className="relative z-10">About</span>
-                  {isActive('/about') && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg opacity-20 animate-pulse"></div>
-                  )}
-                </Link>
-                <Link to="/services" className={linkClass('/services')}>
-                  <span className="relative z-10">Services</span>
-                  {isActive('/services') && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg opacity-20 animate-pulse"></div>
-                  )}
-                </Link>
-                <Link to="/contact" className={linkClass('/contact')}>
-                  <span className="relative z-10">Contact</span>
-                  {isActive('/contact') && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg opacity-20 animate-pulse"></div>
-                  )}
-                </Link>
+                <Link to="/" className={linkClass('/')}>Home</Link>
+                <Link to="/about" className={linkClass('/about')}>About</Link>
+                <Link to="/services" className={linkClass('/services')}>Services</Link>
+                <Link to="/contact" className={linkClass('/contact')}>Contact</Link>
+                <Link to="/job-alerts" className={linkClass('/job-alerts')}>Job Alerts</Link> {/* ✅ Added */}
               </div>
-              
+
               {/* User Actions */}
               <div className="flex items-center space-x-3 ml-6">
-                {/* Notifications - only show when user is logged in */}
                 {user && (
                   <button className="relative p-2 text-gray-300 hover:text-white transition-colors rounded-lg hover:bg-white/10">
                     <div className="w-2 h-2 bg-red-500 rounded-full absolute top-1 right-1 animate-ping"></div>
@@ -87,25 +62,13 @@ const Navbar = ({ user, onLogin, onSignup, onLogout }) => {
                     <Bell className="w-5 h-5" />
                   </button>
                 )}
-                
-                {/* User Profile Dropdown */}
-                <UserProfileDropdown
-                  user={user}
-                  onLogin={onLogin}
-                  onSignup={onSignup}
-                  onLogout={onLogout}
-                />
+                <UserProfileDropdown user={user} onLogin={onLogin} onSignup={onSignup} onLogout={onLogout} />
               </div>
             </div>
 
             {/* Mobile menu button */}
             <div className="md:hidden flex items-center space-x-2">
-              <UserProfileDropdown
-                user={user}
-                onLogin={onLogin}
-                onSignup={onSignup}
-                onLogout={onLogout}
-              />
+              <UserProfileDropdown user={user} onLogin={onLogin} onSignup={onSignup} onLogout={onLogout} />
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-lg text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-200"
